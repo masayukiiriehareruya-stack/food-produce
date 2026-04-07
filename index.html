@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HARERUYA — Bar & Creative Produce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #EDE8DF;
+  --bg2:   #E2DBD0;
+  --ink:   #1A1714;
+  --ink2:  #4A4540;
+  --ink3:  #8A8480;
+  --gold:  #B07E28;
+  --gold-l:rgba(176,126,40,0.14);
+  --gold-b:rgba(176,126,40,0.28);
+  --white: #FAF7F2;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--ink); font-family:'Noto Sans JP',sans-serif; }
+
+/* ─── PROGRESS BAR ─── */
+#prog { position:fixed; top:0; left:0; height:3px; background:var(--gold); z-index:300; width:0; transition:width .1s; }
+
+/* ─── NAV ─── */
+#top-nav {
+  position:fixed; top:0; left:0; right:0;
+  padding:0 48px; height:52px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(237,232,223,.92); backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(26,23,20,.06);
+  z-index:200;
+}
+.nav-brand {
+  font-family:'Oswald',sans-serif; font-weight:700;
+  font-size:16px; letter-spacing:.12em; color:var(--ink);
+}
+.nav-links { display:flex; gap:28px; }
+.nav-links a {
+  font-size:10px; font-weight:400; letter-spacing:.3em; color:var(--ink3);
+  text-decoration:none; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--gold); }
+.conf-badge {
+  font-size:9px; letter-spacing:.28em; color:var(--gold);
+  text-transform:uppercase; opacity:.7;
+}
+
+/* ─── SECTION BASE ─── */
+section { width:100%; position:relative; }
+
+/* ─── S01 COVER ─── */
+.cover {
+  height:100vh; min-height:600px;
+  position:relative; display:flex; align-items:flex-end;
+  overflow:hidden;
+}
+.cover-photo {
+  position:absolute; inset:0;
+  background:var(--ink);
+}
+.cover-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(20,17,14,.90) 0%, rgba(20,17,14,.55) 55%, rgba(20,17,14,.30) 100%);
+}
+/* 装飾テクスチャー（画像なし） */
+.cover-texture {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 30%, rgba(176,126,40,.07) 0%, transparent 70%),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(176,126,40,.03) 40px,
+      rgba(176,126,40,.03) 41px
+    );
+}
+.cover-text {
+  position:relative; z-index:2;
+  padding:80px;
+  color:var(--white);
+}
+.cover-eyebrow {
+  font-size:10px; letter-spacing:.4em; color:rgba(250,247,242,.6);
+  text-transform:uppercase; margin-bottom:20px;
+}
+.cover-h {
+  font-family:'Oswald',sans-serif; font-weight:700;
+  font-size:clamp(64px,11vw,140px);
+  line-height:.88; color:var(--white);
+}
+.cover-h span { color:var(--gold); }
+.cover-sub {
+  font-family:'Noto Sans JP',sans-serif; font-weight:700;
+  font-size:clamp(18px,2.5vw,32px); color:rgba(250,247,242,.88);
+  margin-top:16px; letter-spacing:.04em;
+}
+.cover-rule { width:40px; height:2px; background:var(--gold); margin:24px 0; }
+.cover-body {
+  font-size:15px; line-height:1.85; color:rgba(250,247,242,.6);
+  max-width:480px;
+}
+.scroll-hint {
+  position:absolute; bottom:36px; right:60px; z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  font-size:9px; letter-spacing:.3em; color:rgba(250,247,242,.4);
+  text-transform:uppercase;
+}
+.scroll-hint::after {
+  content:''; width:1px; height:40px; background:rgba(250,247,242,.3);
+}
+
+/* ─── COMMON SECTION LAYOUT ─── */
+.sec-pad { padding:96px 80px; }
+.sec-pad-dark { padding:96px 80px; background:#1A1714; color:var(--white); }
+.sec-pad-white { padding:96px 80px; background:var(--white); }
+
+.label {
+  font-size:10px; letter-spacing:.4em; color:var(--gold);
+  text-transform:uppercase; margin-bottom:20px;
+  display:flex; align-items:center; gap:8px;
+}
+.label::after { content:''; flex:1; max-width:40px; height:1px; background:var(--gold); }
+.label-center { justify-content:center; }
+.label-center::before { content:''; flex:1; max-width:40px; height:1px; background:var(--gold); }
+.label-center::after { content:''; flex:1; max-width:40px; height:1px; background:var(--gold); }
+
+.h1 {
+  font-family:'Noto Sans JP',sans-serif; font-weight:700;
+  font-size:clamp(36px,4.5vw,64px);
+  line-height:1.2; letter-spacing:.01em; color:var(--ink);
+  margin-bottom:32px;
+}
+.h1-white { color:var(--white); }
+.h2 {
+  font-family:'Noto Sans JP',sans-serif; font-weight:700;
+  font-size:clamp(28px,3vw,44px);
+  line-height:1.25; color:var(--ink); margin-bottom:24px;
+}
+.body {
+  font-weight:300; font-size:16px; line-height:1.95; color:var(--ink2);
+  letter-spacing:.02em;
+}
+.body-sm {
+  font-weight:300; font-size:13px; line-height:1.9; color:var(--ink3);
+  letter-spacing:.02em;
+}
+
+/* ─── LIST ─── */
+.list { list-style:none; max-width:680px; }
+.list li {
+  font-weight:300; font-size:16px; line-height:1;
+  padding:18px 0 18px 28px; position:relative; color:var(--ink2);
+  border-bottom:1px solid rgba(26,23,20,.08);
+}
+.list li:first-child { border-top:1px solid rgba(26,23,20,.08); }
+.list li::before { content:'—'; position:absolute; left:0; color:var(--gold); }
+.list li strong { color:var(--ink); font-weight:700; }
+
+/* ─── SPLIT ─── */
+.split { display:flex; min-height:560px; }
+.split-photo { width:50%; position:relative; overflow:hidden; background:var(--bg2); flex-shrink:0; }
+.split-body { flex:1; padding:72px 80px; background:var(--white); display:flex; flex-direction:column; justify-content:center; }
+.split-reverse .split-photo { order:2; }
+.split-reverse .split-body { order:1; }
+
+/* ─── 視覚装飾：画像プレースホルダー ─── */
+.vis-block {
+  width:100%; height:100%; min-height:340px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:16px; background:var(--ink);
+  position:relative; overflow:hidden;
+}
+.vis-block-light { background:var(--bg2); }
+.vis-label {
+  font-family:'Oswald',sans-serif; font-weight:700;
+  font-size:clamp(32px,6vw,72px); color:var(--gold);
+  line-height:1; letter-spacing:.04em; z-index:1;
+  text-align:center;
+}
+.vis-sub {
+  font-size:10px; letter-spacing:.35em; color:rgba(250,247,242,.5);
+  text-transform:uppercase; z-index:1;
+}
+.vis-sub-dark { color:var(--ink3); }
+.vis-deco {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 50% 50%, rgba(176,126,40,.10) 0%, transparent 70%),
+    repeating-linear-gradient(
+      60deg,
+      transparent,
+      transparent 28px,
+      rgba(176,126,40,.04) 28px,
+      rgba(176,126,40,.04) 29px
+    );
+}
+
+.data-item { padding:20px 0; border-bottom:1px solid rgba(26,23,20,.1); }
+.data-item:last-child { border-bottom:none; }
+.data-label { font-size:9px; letter-spacing:.4em; color:var(--gold); text-transform:uppercase; margin-bottom:8px; font-weight:400; }
+.data-value { font-weight:700; font-size:22px; line-height:1.2; color:var(--ink); letter-spacing:.01em; }
+
+/* ─── CONCEPT DARK SECTION ─── */
+.concept-quote {
+  font-family:'Noto Serif JP',serif; font-weight:400;
+  font-size:clamp(22px,3vw,38px); line-height:1.85;
+  color:rgba(250,247,242,.9); letter-spacing:.06em;
+  max-width:760px; margin-bottom:36px;
+}
+.concept-word {
+  font-family:'Noto Sans JP',sans-serif; font-weight:700;
+  font-size:clamp(44px,6vw,80px); color:var(--gold);
+  line-height:1; letter-spacing:.02em;
+}
+.concept-body {
+  font-size:16px; color:rgba(250,247,242,.6); line-height:2;
+  max-width:520px; letter-spacing:.04em; margin-top:28px;
+  font-weight:300;
+}
+
+/* ─── PILLARS / CARDS ─── */
+.pillar-row { display:grid; grid-template-columns:repeat(2,1fr); gap:3px; margin-top:40px; }
+.pillar-card {
+  padding:40px 36px;
+  background:var(--bg2);
+  display:flex; flex-direction:column; gap:12px;
+}
+.pillar-num {
+  font-family:'Oswald',sans-serif; font-weight:700;
+  font-size:48px; color:var(--gold); line-height:1;
+}
+.pillar-name { font-weight:700; font-size:19px; color:var(--ink); }
+.pillar-name-en { font-size:10px; letter-spacing:.3em; color:var(--gold); text-transform:uppercase; }
+.pillar-change {
+  font-size:12px; letter-spacing:.15em; color:rgba(250,247,242,.55);
+  text-transform:uppercase; font-weight:400;
+  background:var(--gold); display:inline-block; padding:3px 10px; margin-top:4px; width:fit-content;
+}
+.pillar-desc { font-weight:300; font-size:14px; color:var(--ink2); line-height:1.9; }
+
+/* ─── COMPARISON TABLE ─── */
+.tbl { width:100%; border-collapse:collapse; }
+.tbl thead tr { background:var(--ink); }
+.tbl th {
+  font-weight:400; font-size:11px; letter-spacing:.28em; color:var(--white);
+  text-align:center; padding:14px 20px; text-transform:uppercase;
+}
+.tbl th:first-child { text-align:left; }
+.tbl td {
+  font-weight:300; font-size:14px; color:var(--ink2);
+  padding:14px 20px; border-bottom:1px solid rgba(26,23,20,.08);
+  line-height:1.5; text-align:center;
+}
+.tbl td:first-child { color:var(--ink); font-weight:700; text-align:left; }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl .col-us { background:rgba(176,126,40,.06); color:var(--ink); font-weight:400; }
+.tbl .col-us-h { background:rgba(176,126,40,.18); }
+
+/* ─── PROCESS STEPS ─── */
+.process-row {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:3px; margin-top:40px;
+}
+.process-card { padding:36px 28px; background:var(--bg2); }
+.process-num {
+  font-family:'Oswald',sans-serif; font-weight:700;
+  font-size:36px; color:var(--gold); line-height:1; margin-bottom:12px;
+}
+.process-name { font-weight:700; font-size:16px; color:var(--ink); margin-bottom:12px; }
+.process-desc { font-weight:300; font-size:13px; color:var(--ink2); line-height:1.9; }
+
+/* ─── STATS ROW ─── */
+.stats-row { display:flex; gap:0; margin:32px 0; }
+.stat-block { flex:1; padding:28px 32px; border-left:1px solid rgba(26,23,20,.1); }
+.stat-block:first-child { border-left:none; padding-left:0; }
+.num-hero {
+  font-family:'Oswald',sans-serif; font-weight:700;
+  font-size:clamp(64px,9vw,110px); color:var(--gold);
+  line-height:.9; letter-spacing:-.02em;
+}
+.num-label { font-weight:300; font-size:11px; color:var(--ink3); letter-spacing:.22em; margin-top:8px; }
+
+/* ─── PRICING PLANS ─── */
+.plan-row { display:flex; gap:3px; margin-top:40px; align-items:stretch; }
+.plan-card { flex:1; padding:40px 32px; background:var(--bg2); display:flex; flex-direction:column; gap:16px; }
+.plan-card-featured { background:var(--ink); }
+.plan-name { font-weight:700; font-size:20px; color:var(--ink); }
+.plan-name-featured { color:var(--white); }
+.plan-price {
+  font-family:'Oswald',sans-serif; font-weight:700;
+  font-size:clamp(36px,5vw,52px); color:var(--gold); line-height:1;
+}
+.plan-price-sub { font-size:13px; font-weight:300; color:var(--ink3); margin-top:4px; }
+.plan-price-sub-featured { color:rgba(250,247,242,.5); }
+.plan-divider { height:1px; background:rgba(26,23,20,.1); }
+.plan-divider-featured { background:rgba(250,247,242,.15); }
+.plan-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.plan-list li {
+  font-weight:300; font-size:13px; line-height:1.7; color:var(--ink2);
+  padding-left:20px; position:relative;
+}
+.plan-list li::before { content:'—'; position:absolute; left:0; color:var(--gold); }
+.plan-list-featured li { color:rgba(250,247,242,.7); }
+.plan-badge {
+  font-size:9px; letter-spacing:.3em; color:var(--gold);
+  text-transform:uppercase; background:var(--gold-l);
+  padding:4px 10px; display:inline-block; width:fit-content;
+}
+
+/* ─── FAQ ─── */
+.faq-item { padding:28px 0; border-bottom:1px solid rgba(26,23,20,.08); max-width:720px; }
+.faq-item:first-child { border-top:1px solid rgba(26,23,20,.08); }
+.faq-q { font-weight:700; font-size:16px; color:var(--ink); margin-bottom:12px; padding-left:28px; position:relative; }
+.faq-q::before { content:'Q'; position:absolute; left:0; color:var(--gold); font-family:'Oswald',sans-serif; font-weight:700; font-size:18px; }
+.faq-a { font-weight:300; font-size:15px; line-height:1.9; color:var(--ink2); padding-left:28px; }
+
+/* ─── DIVIDER ─── */
+.divider { height:1px; background:rgba(26,23,20,.08); margin:0 80px; }
+
+/* ─── TIMELINE ─── */
+.tl { display:flex; width:100%; max-width:880px; margin:56px auto 0; }
+.tl-item { flex:1; padding-top:24px; position:relative; text-align:center; }
+.tl-item::before { content:''; position:absolute; top:6px; left:0; right:0; height:1px; background:var(--gold-b); }
+.tl-item:first-child::before { left:50%; }
+.tl-item:last-child::before { right:50%; }
+.tl-dot { position:absolute; top:2px; left:50%; transform:translateX(-50%); width:9px; height:9px; border-radius:50%; background:var(--gold); }
+.tl-yr { font-family:'Oswald',sans-serif; font-size:22px; font-weight:600; color:var(--gold); margin-bottom:12px; }
+.tl-txt { font-size:13px; font-weight:300; color:var(--ink2); line-height:1.9; }
+
+/* ─── TEAM ─── */
+.team-row { display:flex; gap:3px; max-width:780px; margin:32px 0; }
+.team-card { flex:1; padding:40px; background:var(--bg); }
+.team-name { font-weight:700; font-size:28px; margin-bottom:6px; color:var(--ink); }
+.team-role { font-weight:300; font-size:10px; color:var(--gold); letter-spacing:.32em; margin-bottom:20px; }
+
+/* ─── FOOTER ─── */
+footer {
+  padding:40px 80px;
+  text-align:center;
+  background:var(--ink);
+  color:rgba(250,247,242,.35);
+  font-size:10px; letter-spacing:.25em; text-transform:uppercase;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .split { flex-direction:column; }
+  .split-photo { width:100%; height:260px; }
+  .split-reverse .split-photo { order:0; }
+  .split-reverse .split-body { order:0; }
+  .stats-row { flex-direction:column; }
+  .stat-block { border-left:none; border-top:1px solid rgba(26,23,20,.1); padding-left:0; padding:20px 0; }
+  .stat-block:first-child { border-top:none; }
+  .pillar-row { grid-template-columns:1fr; }
+  .process-row { grid-template-columns:1fr 1fr; }
+  .plan-row { flex-direction:column; }
+  .team-row { flex-direction:column; }
+  .sec-pad, .sec-pad-dark, .sec-pad-white { padding:60px 24px; }
+  .split-body { padding:48px 24px; }
+  .cover-text { padding:40px 24px; }
+  #top-nav { padding:0 20px; }
+  .nav-links { display:none; }
+  footer { padding:28px 20px; }
+  .divider { margin:0 24px; }
+  .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .tbl { min-width:520px; }
+  .num-hero { font-size:clamp(48px,12vw,80px); }
+  .h1 { font-size:clamp(28px,6vw,48px); }
+  .tl { flex-direction:column; gap:32px; margin-top:32px; }
+  .tl-item { padding-top:0; padding-left:28px; text-align:left; }
+  .tl-item::before { top:6px; left:0; right:auto; width:1px; height:100%; background:var(--gold-b); }
+  .tl-item:first-child::before { left:0; }
+  .tl-item:last-child::before { right:auto; }
+  .tl-dot { left:0; top:4px; transform:none; }
+  .cover-h { font-size:clamp(52px,13vw,100px); }
+}
+@media(max-width:600px){
+  .process-row { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<nav id="top-nav">
+  <span class="nav-brand">HARERUYA</span>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#issue">Issues</a>
+    <a href="#method">Method</a>
+    <a href="#services">Services</a>
+    <a href="#compare">Why Us</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <span class="conf-badge">Confidential</span>
+</nav>
+
+
+<!-- ══ S01 COVER ══ -->
+<section class="cover" id="top">
+  <div class="cover-photo">
+    <div class="cover-texture"></div>
+  </div>
+  <div class="cover-overlay"></div>
+  <div class="cover-text">
+    <p class="cover-eyebrow">Bar &amp; Creative Produce — HARERUYA LLC 2026</p>
+    <p class="cover-h">香り、<br><span>物語</span>、<br>科学。</p>
+    <p class="cover-sub">あなたの店を変える、バーメニュー総合プロデュース</p>
+    <div class="cover-rule"></div>
+    <p class="cover-body">
+      クリエイティブ（調香 / ペアリング理論 / ガストロノミー理論 / 文化創作 / カクテル開発）<br>
+      × ビジネス（マーケティング・経営）の両輪で、<br>
+      売上・体験・ブランド価値を一体で設計するプレミアム伴走型サービス
+    </p>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+
+<!-- ══ S02 OVERVIEW ══ -->
+<section class="sec-pad" id="overview">
+  <p class="label">Company Overview</p>
+  <h2 class="h1">夜に、<br>物語と科学を。</h2>
+  <p class="body" style="max-width:640px;margin-bottom:48px;">
+    一杯のカクテルには、その土地の歴史や文化という「物語」と、香りの分子や味覚の構造という「科学」が共存しています。<br>
+    合同会社晴夜（HARERUYA LLC）は、感覚的なクリエイティブと論理的なビジネス戦略を融合させ、飲食店の「味覚体験」に新しい価値と収益をもたらします。
+  </p>
+
+  <div style="display:flex;gap:3px;max-width:720px;">
+    <div style="flex:1;padding:32px;background:var(--bg2);">
+      <p class="label" style="margin-bottom:12px;">Creative</p>
+      <p style="font-weight:700;font-size:18px;color:var(--ink);margin-bottom:16px;">感性と理論の融合</p>
+      <ul class="list" style="max-width:100%;">
+        <li>調香学アプローチ</li>
+        <li>ガストロノミー理論</li>
+        <li>歴史・文化の文脈設計 &amp; 創作</li>
+      </ul>
+    </div>
+    <div style="flex:1;padding:32px;background:var(--ink);">
+      <p class="label" style="margin-bottom:12px;">Business</p>
+      <p style="font-weight:700;font-size:18px;color:var(--white);margin-bottom:16px;">収益と持続性の設計</p>
+      <ul class="list" style="max-width:100%;">
+        <li style="color:rgba(250,247,242,.7);border-color:rgba(250,247,242,.1);">原価・利益率管理</li>
+        <li style="color:rgba(250,247,242,.7);border-color:rgba(250,247,242,.1);">オペレーション効率化</li>
+        <li style="color:rgba(250,247,242,.7);border-color:rgba(250,247,242,.1);">マーケティング戦略設計</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <p class="label" style="margin-bottom:16px;">Service Target</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <span style="padding:8px 20px;background:var(--bg2);font-size:13px;font-weight:400;letter-spacing:.1em;color:var(--ink2);">居酒屋</span>
+      <span style="padding:8px 20px;background:var(--bg2);font-size:13px;font-weight:400;letter-spacing:.1em;color:var(--ink2);">レストラン</span>
+      <span style="padding:8px 20px;background:var(--bg2);font-size:13px;font-weight:400;letter-spacing:.1em;color:var(--ink2);">カフェ</span>
+      <span style="padding:8px 20px;background:var(--bg2);font-size:13px;font-weight:400;letter-spacing:.1em;color:var(--ink2);">バー</span>
+      <span style="padding:8px 20px;background:var(--bg2);font-size:13px;font-weight:400;letter-spacing:.1em;color:var(--ink2);">ダイニング</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ S03 ISSUES ══ -->
+<section class="sec-pad-dark" id="issue">
+  <p class="label" style="color:var(--gold);">Before &amp; After</p>
+  <p class="concept-quote">
+    よくある課題と、<br>
+    晴夜がもたらす変化。
+  </p>
+  <div style="width:40px;height:2px;background:var(--gold);margin-bottom:40px;"></div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+    <div style="padding:32px 28px;background:rgba(250,247,242,.04);border-top:2px solid rgba(176,126,40,.3);">
+      <p style="font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:var(--gold);line-height:1;margin-bottom:16px;">01</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">差別化不足</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">近隣店と似たメニューで指名来店が生まれない。</p>
+    </div>
+    <div style="padding:32px 28px;background:rgba(250,247,242,.04);border-top:2px solid rgba(176,126,40,.3);">
+      <p style="font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:var(--gold);line-height:1;margin-bottom:16px;">02</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">客単価の悩み</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">利益率の高いドリンクが伸びず「もう１杯」の引き込みがない。</p>
+    </div>
+    <div style="padding:32px 28px;background:rgba(250,247,242,.04);border-top:2px solid rgba(176,126,40,.3);">
+      <p style="font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:var(--gold);line-height:1;margin-bottom:16px;">03</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">記憶に残らない</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">驚きや物語がなく再訪動機が弱い。</p>
+    </div>
+    <div style="padding:32px 28px;background:rgba(250,247,242,.04);border-top:2px solid rgba(176,126,40,.3);">
+      <p style="font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:var(--gold);line-height:1;margin-bottom:16px;">04</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">SNS拡散力不足</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">映えるシグネチャーがなく口コミが広がらない。</p>
+    </div>
+    <div style="padding:32px 28px;background:rgba(250,247,242,.04);border-top:2px solid rgba(176,126,40,.3);">
+      <p style="font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:var(--gold);line-height:1;margin-bottom:16px;">05</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">原価と手間の壁</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">クオリティと効率の両立が難しい。</p>
+    </div>
+    <div style="padding:32px 28px;background:rgba(250,247,242,.04);border-top:2px solid rgba(176,126,40,.3);">
+      <p style="font-family:'Oswald',sans-serif;font-weight:700;font-size:32px;color:var(--gold);line-height:1;margin-bottom:16px;">06</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">属人化と教育</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">特定のスタッフしか作れず味がブレる。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;display:flex;gap:3px;">
+    <div style="flex:1;padding:28px 32px;background:rgba(26,23,20,.5);border-left:3px solid rgba(176,126,40,.3);">
+      <p style="font-size:10px;letter-spacing:.35em;color:var(--ink3);text-transform:uppercase;margin-bottom:12px;">Before</p>
+      <p style="font-weight:700;font-size:16px;color:rgba(250,247,242,.5);">ありきたりなメニュー</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.35);margin-top:6px;">低い収益性・属人化・話題性なし</p>
+    </div>
+    <div style="display:flex;align-items:center;padding:0 20px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;">→</div>
+    <div style="flex:1;padding:28px 32px;background:rgba(176,126,40,.12);border-left:3px solid var(--gold);">
+      <p style="font-size:10px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">After — Produced by 晴夜</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);">物語と香味の唯一無二の体験へ</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);margin-top:6px;">科学的アプローチで高収益 &amp; 再現性を両立 / SNSで拡散されるブランドコンテンツに</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ S04 METHODOLOGY ══ -->
+<section class="sec-pad" id="method">
+  <p class="label">Methodology</p>
+  <h2 class="h1">5層の垂直統合<br>メソッド</h2>
+  <p class="body" style="max-width:600px;margin-bottom:48px;">
+    単発のレシピ提供にとどまらない。店舗の資産として定着し、利益を生むまでをトータルサポートする晴夜独自のアプローチ。
+  </p>
+
+  <div style="display:flex;flex-direction:column;gap:3px;max-width:760px;">
+    <div style="display:flex;gap:0;align-items:stretch;">
+      <div style="width:60px;flex-shrink:0;background:var(--gold);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:'Oswald',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--white);text-transform:uppercase;">Foundation</div>
+      <div style="flex:1;padding:24px 28px;background:var(--bg2);">
+        <p style="font-weight:700;font-size:17px;color:var(--ink);margin-bottom:8px;">トータルデザイン</p>
+        <p style="font-weight:300;font-size:14px;color:var(--ink2);line-height:1.9;">メニュー・販促・オペレーションまで一貫構築。立体的かつ継続的なプロデュース。</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:0;align-items:stretch;">
+      <div style="width:60px;flex-shrink:0;background:rgba(176,126,40,.75);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:'Oswald',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--white);text-transform:uppercase;">Experience</div>
+      <div style="flex:1;padding:24px 28px;background:var(--bg2);">
+        <p style="font-weight:700;font-size:17px;color:var(--ink);margin-bottom:8px;">体験設計</p>
+        <p style="font-weight:300;font-size:14px;color:var(--ink2);line-height:1.9;">器・氷・所作・BGMまで五感演出をデザイン。記憶に刻まれる体験をつくる。</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:0;align-items:stretch;">
+      <div style="width:60px;flex-shrink:0;background:rgba(176,126,40,.55);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:'Oswald',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--white);text-transform:uppercase;">Narrative</div>
+      <div style="flex:1;padding:24px 28px;background:var(--bg2);">
+        <p style="font-weight:700;font-size:17px;color:var(--ink);margin-bottom:8px;">物語・歴史・文化</p>
+        <p style="font-weight:300;font-size:14px;color:var(--ink2);line-height:1.9;">土地や文脈を編集し、飲む理由となる物語を付与。ブランドの資産化を実現。</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:0;align-items:stretch;">
+      <div style="width:60px;flex-shrink:0;background:rgba(176,126,40,.38);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:'Oswald',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--white);text-transform:uppercase;">Gastronomy</div>
+      <div style="flex:1;padding:24px 28px;background:var(--bg2);">
+        <p style="font-weight:700;font-size:17px;color:var(--ink);margin-bottom:8px;">ガストロノミー理論</p>
+        <p style="font-weight:300;font-size:14px;color:var(--ink2);line-height:1.9;">味覚・温度・テクスチャーの科学的最適化。高単価・ファン化を数値で設計。</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:0;align-items:stretch;">
+      <div style="width:60px;flex-shrink:0;background:rgba(176,126,40,.22);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:'Oswald',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--ink3);text-transform:uppercase;">Aroma</div>
+      <div style="flex:1;padding:24px 28px;background:var(--bg2);">
+        <p style="font-weight:700;font-size:17px;color:var(--ink);margin-bottom:8px;">調香学</p>
+        <p style="font-weight:300;font-size:14px;color:var(--ink2);line-height:1.9;">香気成分を分析し、記憶の扉を開く「香り」を設計。類例のない差別化を生む。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ S05 SERVICES ══ -->
+<section class="sec-pad-white" id="services">
+  <p class="label">Services</p>
+  <h2 class="h1">提供サービス<br>4つの柱</h2>
+  <div class="pillar-row">
+    <div class="pillar-card">
+      <p class="pillar-num">01</p>
+      <p class="pillar-name-en">Menu Production</p>
+      <p class="pillar-name">メニュープロデュース</p>
+      <span class="pillar-change">客単価向上 · 指名注文増</span>
+      <p class="pillar-desc">
+        シグネチャーカクテル開発・カクテルメニュー提案・原価率・利益率の最適化。<br>
+        「記憶に残る」一杯で指名来店を生み出す。
+      </p>
+    </div>
+    <div class="pillar-card">
+      <p class="pillar-num">02</p>
+      <p class="pillar-name-en">Store Production</p>
+      <p class="pillar-name">店舗プロデュース</p>
+      <span class="pillar-change">滞在価値 · ブランド力向上</span>
+      <p class="pillar-desc">
+        バーエリア・カウンター設計・効率的なオペレーション導線・専門器具・グラス選定・コンセプト・世界観の策定。
+      </p>
+    </div>
+    <div class="pillar-card">
+      <p class="pillar-num">03</p>
+      <p class="pillar-name-en">Marketing &amp; PR</p>
+      <p class="pillar-name">マーケティング・PR</p>
+      <span class="pillar-change">集客力 · 認知拡大</span>
+      <p class="pillar-desc">
+        ブランド戦略・マーケティング戦略の策定・メニューブック・コピー開発・SNS運用戦略・プロモーション設計。
+      </p>
+    </div>
+    <div class="pillar-card">
+      <p class="pillar-num">04</p>
+      <p class="pillar-name-en">Education</p>
+      <p class="pillar-name">教育・標準化</p>
+      <span class="pillar-change">品質安定 · 属人化解消</span>
+      <p class="pillar-desc">
+        再現性の高いレシピ規格化・技術指導・クオリティ管理（QC）。<br>
+        誰が作っても同じ味が出る仕組みを構築。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ S06 WHY US ══ -->
+<section class="sec-pad" id="compare">
+  <p class="label">Why Choose Us</p>
+  <h2 class="h1">他社との違い</h2>
+  <p class="body" style="max-width:580px;margin-bottom:40px;">
+    調香学 × 物語 × マーケティングの統合プロデュース。<br>
+    売上・原価率・話題量を同時に最大化する、唯一のアプローチ。
+  </p>
+  <div class="tbl-wrap">
+  <table class="tbl" style="min-width:580px;">
+    <thead>
+      <tr>
+        <th style="text-align:left;">比較項目</th>
+        <th>一般的なメニュー<br>デザイン会社</th>
+        <th>個人の<br>バーテンダー依頼</th>
+        <th class="col-us-h">晴夜</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>アプローチ</td>
+        <td>見た目・表面的なデザイン制作が中心</td>
+        <td>個人の感性や経験に依存（属人的）</td>
+        <td class="col-us"><strong style="color:var(--gold);">調香学 × 物語 × マーケティングの統合プロデュース</strong></td>
+      </tr>
+      <tr>
+        <td>収益設計</td>
+        <td>納品重視で考慮されないことが多い</td>
+        <td>原価率は考慮するが全体戦略は弱い</td>
+        <td class="col-us"><strong style="color:var(--gold);">客単価・利益率を緻密に計算</strong></td>
+      </tr>
+      <tr>
+        <td>再現性・教育</td>
+        <td>レシピ提供のみで現場教育なし</td>
+        <td>高度すぎてスタッフが再現困難</td>
+        <td class="col-us"><strong style="color:var(--gold);">技術指導・研修で標準化を徹底</strong></td>
+      </tr>
+      <tr>
+        <td>伴走期間</td>
+        <td>納品して終了（スポット契約）</td>
+        <td>個人の都合により継続性が不透明</td>
+        <td class="col-us"><strong style="color:var(--gold);">導入後もPDCAを回す長期パートナー</strong></td>
+      </tr>
+      <tr>
+        <td>ブランド構築</td>
+        <td>メニューブックという「点」の制作</td>
+        <td>カクテルという「点」の制作</td>
+        <td class="col-us"><strong style="color:var(--gold);">店舗での体験全体を「面」で捉え設計・資産化</strong></td>
+      </tr>
+      <tr>
+        <td>成果指標</td>
+        <td>デザインの良し悪し（定性）</td>
+        <td>味の評判（定性）</td>
+        <td class="col-us"><strong style="color:var(--gold);">売上・原価率・話題量の向上（定量）</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:11px;color:var(--ink3);margin-top:16px;line-height:1.8;">
+    ※ 比較内容は一般的な傾向に基づくものであり、全てのケースに当てはまるわけではありません。
+  </p>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ S07 PORTFOLIO ══ -->
+<section class="sec-pad-dark" id="portfolio">
+  <p class="label" style="color:var(--gold);">Case Study &amp; Awards</p>
+  <p class="concept-quote">
+    プロデュース実績と、<br>受賞歴。
+  </p>
+  <div style="width:40px;height:2px;background:var(--gold);margin-bottom:48px;"></div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+    <div style="padding:32px 28px;background:rgba(250,247,242,.05);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">Case 01</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">ハイエンドシーシャバー</p>
+      <p style="font-size:11px;letter-spacing:.15em;color:var(--gold);margin-bottom:16px;">香りとペアリングするミクソロジー導入</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">
+        シーシャの香りを邪魔しない緻密な設計で、セット注文率が大幅向上。
+      </p>
+    </div>
+    <div style="padding:32px 28px;background:rgba(250,247,242,.05);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">Case 02</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">ハイエンドバー</p>
+      <p style="font-size:11px;letter-spacing:.15em;color:var(--gold);margin-bottom:16px;">シグネチャーカクテルの開発 / 店舗リブランディング</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">
+        高いクオリティを確立したメニューが奏功し、新規顧客層を獲得。
+      </p>
+    </div>
+    <div style="padding:32px 28px;background:rgba(250,247,242,.05);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">Case 03</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);margin-bottom:10px;">カジュアルバー</p>
+      <p style="font-size:11px;letter-spacing:.15em;color:var(--gold);margin-bottom:16px;">メニュー構築 / オペレーション改善と品質安定化</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.6);line-height:1.9;">
+        プレミックス手法の導入で、スタッフでも高品質なカクテル提供を実現。
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;padding:32px 36px;background:rgba(176,126,40,.12);border-left:3px solid var(--gold);">
+    <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">Awards</p>
+    <p style="font-weight:700;font-size:20px;color:var(--white);margin-bottom:8px;">国内カクテルコンペティション</p>
+    <p style="font-weight:300;font-size:15px;color:rgba(250,247,242,.7);">入賞実績多数</p>
+  </div>
+</section>
+
+
+<!-- ══ S08 PROCESS ══ -->
+<section class="sec-pad" id="process">
+  <p class="label">Process</p>
+  <h2 class="h1">導入までの流れ</h2>
+  <p class="body" style="max-width:580px;margin-bottom:8px;">
+    標準導入期間目安：<strong>4〜8週間</strong>（店舗規模やメニュー点数により変動）
+  </p>
+  <p class="body-sm" style="margin-bottom:40px;">※ お急ぎの場合は最短2週間でのスポット導入も可能です。</p>
+
+  <div class="process-row">
+    <div class="process-card">
+      <p class="process-num">01</p>
+      <p class="process-name">無料相談</p>
+      <p class="process-desc">現状の課題や目標をヒアリング。どのような解決策が可能か、概算見積と合わせてご提案します。</p>
+    </div>
+    <div class="process-card">
+      <p class="process-num">02</p>
+      <p class="process-name">現地診断・分析</p>
+      <p class="process-desc">店舗の客層、導線、設備を確認。売上データ（ABC分析）を行い、改善インパクトの大きい箇所を特定します。</p>
+    </div>
+    <div class="process-card">
+      <p class="process-num">03</p>
+      <p class="process-name">コンセプト設計</p>
+      <p class="process-desc">「物語」と「科学」を融合させたメニューコンセプトを策定。香りの構成やビジュアルの方向性を決定します。</p>
+    </div>
+    <div class="process-card">
+      <p class="process-num">04</p>
+      <p class="process-name">試作・テスト</p>
+      <p class="process-desc">試飲会を実施し、味と採算性を検証。オペレーション負荷のテストも行い、現場で回るメニューに仕上げます。</p>
+    </div>
+    <div class="process-card">
+      <p class="process-num">05</p>
+      <p class="process-name">導入・研修</p>
+      <p class="process-desc">レシピの規格化とスタッフ研修。動画マニュアルを提供し、誰が作っても同じ味が再現できる体制を作ります。</p>
+    </div>
+    <div class="process-card">
+      <p class="process-num">06</p>
+      <p class="process-name">改善支援</p>
+      <p class="process-desc">導入後の数値（KPI）をモニタリング。季節ごとの微調整や、スタッフの定着支援を継続的に行います。</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ S09 PRICING ══ -->
+<section class="sec-pad-white" id="pricing">
+  <p class="label">Pricing Plans</p>
+  <h2 class="h1">月額料金プラン</h2>
+  <p class="body" style="max-width:580px;margin-bottom:40px;">
+    基本的に契約期間は6ヶ月〜。まずはスポットのメニュー診断から始め、効果を実感いただいてから長期契約へ移行される店舗様も多くいらっしゃいます。
+  </p>
+
+  <div class="plan-row">
+    <div class="plan-card">
+      <p class="plan-name">Light</p>
+      <div>
+        <p class="plan-price">¥100,000<span style="font-size:22px;font-weight:300;">〜</span></p>
+        <p class="plan-price-sub">/ 月（税別）</p>
+      </div>
+      <p style="font-weight:300;font-size:13px;color:var(--ink2);line-height:1.7;">既存メニューの改善と数点のシグネチャー開発</p>
+      <div class="plan-divider"></div>
+      <ul class="plan-list">
+        <li>メニュー診断・改善提案</li>
+        <li>メニュー作成・提案（制限あり）</li>
+        <li>スタッフ技術指導・マニュアル化</li>
+      </ul>
+    </div>
+
+    <div class="plan-card plan-card-featured" style="position:relative;">
+      <div style="position:absolute;top:-1px;right:24px;background:var(--gold);padding:5px 14px;">
+        <p style="font-size:9px;letter-spacing:.3em;color:var(--white);text-transform:uppercase;">Recommended</p>
+      </div>
+      <p class="plan-name plan-name-featured">Standard</p>
+      <div>
+        <p class="plan-price">¥150,000<span style="font-size:22px;font-weight:300;">〜</span></p>
+        <p class="plan-price-sub plan-price-sub-featured">/ 月（税別）</p>
+      </div>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.7);line-height:1.7;">売れる仕組みを構築する標準プラン</p>
+      <div class="plan-divider plan-divider-featured"></div>
+      <ul class="plan-list plan-list-featured">
+        <li>メニュー作成・提案</li>
+        <li>スタッフ技術指導・マニュアル化</li>
+        <li>原価・粗利シミュレーション</li>
+        <li>導入後1ヶ月サポート</li>
+      </ul>
+    </div>
+
+    <div class="plan-card">
+      <p class="plan-name">Premium</p>
+      <div>
+        <p class="plan-price">¥200,000<span style="font-size:22px;font-weight:300;">〜</span></p>
+        <p class="plan-price-sub">/ 月（税別）</p>
+      </div>
+      <p style="font-weight:300;font-size:13px;color:var(--ink2);line-height:1.7;">マーケティング・空間・SNSも含めたトータルブランドプロデュース</p>
+      <div class="plan-divider"></div>
+      <ul class="plan-list">
+        <li>店舗プロデュース（器具・導線）</li>
+        <li>マーケティング・SNS戦略立案・運用立ち上げ</li>
+        <li>ペアリング・ノンアル完全対応</li>
+        <li>月次定例・改善PDCA（3ヶ月）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;padding:28px 32px;background:var(--bg2);border-left:3px solid var(--gold);">
+    <p class="label" style="margin-bottom:12px;">全プラン共通特典</p>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;">
+      <p style="font-weight:300;font-size:14px;color:var(--ink2);">✓ オンライン初回相談無料</p>
+      <p style="font-weight:300;font-size:14px;color:var(--ink2);">✓ 診断レポート納品</p>
+      <p style="font-weight:300;font-size:14px;color:var(--ink2);">✓ 導入後1ヶ月サポート</p>
+    </div>
+  </div>
+
+  <p class="body-sm" style="margin-top:20px;line-height:1.9;">
+    ※ 表示価格は税別です。別途交通費・宿泊費（遠方の場合）が発生します。<br>
+    ※ 店舗規模、メニュー点数、開発難易度により御見積は変動します。
+  </p>
+</section>
+
+
+<!-- ══ S10 FAQ ══ -->
+<section class="sec-pad" id="faq">
+  <p class="label">FAQ</p>
+  <h2 class="h1">よくある質問</h2>
+
+  <div class="faq-item">
+    <p class="faq-q">既存の仕入れ・設備で対応できますか？</p>
+    <p class="faq-a">はい、可能です。既存の取引先や厨房設備を最大限活用し、初期投資を抑えたご提案を基本としています。必要な場合のみ、費用対効果の高い器具や専門的な仕入れ先をご案内いたします。</p>
+  </div>
+  <div class="faq-item">
+    <p class="faq-q">スタッフのスキル差が不安です。</p>
+    <p class="faq-a">ご安心ください。計量（メジャーメント）を基本とした再現性の高いレシピ設計を行います。また、動画マニュアルの提供や実地トレーニング、講習トレーニングにより、経験の浅いスタッフでも均一なクオリティで提供できる仕組みを構築します。</p>
+  </div>
+  <div class="faq-item">
+    <p class="faq-q">効果はどれくらいで出ますか？</p>
+    <p class="faq-a">早ければ導入初月から、ドリンクの注文率や客単価に変化が現れます。定着し、SNS等の口コミ効果を含めたブランド資産として機能し始める目安としては、導入後3ヶ月程度を想定しています。</p>
+  </div>
+  <div class="faq-item">
+    <p class="faq-q">契約期間は柔軟ですか？</p>
+    <p class="faq-a">中・長期のクオリティ向上のため、半年から受注可能です。まずはスポットでのメニュー診断や季節メニュー開発から始め、効果を実感いただいてから長期のコンサルティング契約へ移行される店舗様も多くいらっしゃいます。</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ S11 TEAM ══ -->
+<section class="sec-pad-white" style="text-align:center;" id="team">
+  <p class="label label-center">Team</p>
+  <h2 class="h1" style="text-align:center;">クリエイティブと<br>ビジネスの両輪。</h2>
+  <div class="team-row" style="margin-left:auto;margin-right:auto;">
+    <div class="team-card">
+      <p class="team-name">ARATA</p>
+      <p class="team-role">Producer / Creative Director</p>
+      <p class="body" style="font-size:15px;">
+        合同会社晴夜 プロデューサー / クリエイティブ。ガストロノミーと調香学、文化理解を駆使し、五感に響く革新的なメニュー開発とデザインを担当。国内カクテルコンペティション入賞実績多数。
+      </p>
+    </div>
+    <div style="width:3px;background:var(--bg);flex-shrink:0;"></div>
+    <div class="team-card">
+      <p class="team-name">MASA</p>
+      <p class="team-role">Business Producer</p>
+      <p class="body" style="font-size:15px;">
+        ブランドプロデューサー。経営・戦略・マーケティングを担当。AI組織を活用した次世代型経営体制を構築。クリエイティブとビジネスを繋ぐ役割を担う。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ S12 CONTACT ══ -->
+<section class="sec-pad-dark" id="contact">
+  <p class="label" style="color:var(--gold);">Contact Us</p>
+  <p class="concept-quote">
+    まずは、あなたの店の<br>
+    『物語』を聞かせてください。
+  </p>
+  <p class="concept-body">
+    香り、科学、そして体験設計で、記憶に残る一杯を。<br>
+    コンセプト設計からメニュー開発、店舗プロデュースまで。<br>
+    私たち晴夜（ハレルヤ）が、あなたの理想を現実に変えます。
+  </p>
+  <div style="width:40px;height:2px;background:var(--gold);margin:36px 0;"></div>
+
+  <div style="display:flex;gap:3px;flex-wrap:wrap;max-width:720px;">
+    <div style="flex:1;min-width:220px;padding:28px 32px;background:rgba(250,247,242,.05);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Area</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);">全国対応</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.5);margin-top:4px;">オンライン / 出張</p>
+    </div>
+    <div style="flex:1;min-width:220px;padding:28px 32px;background:rgba(250,247,242,.05);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Client</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);">バー・レストラン<br>ホテル・カフェ</p>
+    </div>
+    <div style="flex:1;min-width:220px;padding:28px 32px;background:rgba(176,126,40,.15);border:1px solid rgba(176,126,40,.3);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">初回相談 無料</p>
+      <p style="font-weight:700;font-size:16px;color:var(--white);">30分のオンライン<br>ヒアリング</p>
+      <p style="font-weight:300;font-size:13px;color:rgba(250,247,242,.5);margin-top:4px;">課題を整理します。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Email</p>
+    <p style="font-weight:700;font-size:18px;color:var(--white);letter-spacing:.04em;">arata.suzuki.hareruya@gmail.com</p>
+  </div>
+</section>
+
+
+<!-- ══ COMPANY INFO ══ -->
+<section class="sec-pad" id="company" style="text-align:center;">
+  <p class="label label-center">Company</p>
+  <div style="display:inline-flex;gap:3px;flex-wrap:wrap;max-width:720px;width:100%;">
+    <div style="flex:1;min-width:180px;padding:28px 32px;background:var(--white);border:1px solid rgba(26,23,20,.08);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Company</p>
+      <p style="font-weight:700;font-size:15px;color:var(--ink);">合同会社晴夜</p>
+      <p style="font-size:11px;color:var(--ink3);margin-top:4px;letter-spacing:.06em;">HARERUYA LLC</p>
+    </div>
+    <div style="flex:1;min-width:180px;padding:28px 32px;background:var(--white);border:1px solid rgba(26,23,20,.08);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Representative</p>
+      <p style="font-weight:700;font-size:15px;color:var(--ink);">鈴木 新</p>
+      <p style="font-size:11px;color:var(--ink3);margin-top:4px;">代表社員</p>
+    </div>
+    <div style="flex:1;min-width:180px;padding:28px 32px;background:var(--white);border:1px solid rgba(26,23,20,.08);">
+      <p style="font-size:9px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Address</p>
+      <p style="font-weight:400;font-size:14px;color:var(--ink);line-height:1.7;">東京都世田谷区<br>代沢2-41-2</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  合同会社晴夜 HARERUYA LLC&nbsp;|&nbsp;Bar &amp; Creative Produce&nbsp;|&nbsp;代表：鈴木 新&nbsp;|&nbsp;CONFIDENTIAL — 無断転用・共有禁止
+</footer>
+
+<script>
+// Progress bar on scroll
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>
